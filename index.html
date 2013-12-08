@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Coinbase for Hive Wallet</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/main.css" rel="stylesheet" type="text/css" />
+
+    <script src="js/libs/jquery.min.js"></script>
+    <script src="js/coinbase.js"></script>
+</head>
+<body>
+	<div class="page-header">
+		<h1>Coinbase</h1>
+	</div>
+
+	<div class="body">
+		<div class="panel panel-default">
+			<div id="current-balance" class="panel-body">
+				<div class="pull-left">
+					Current balance:
+				</div>
+				<div class="pull-right">
+					<span class="balance">
+						<span class="value"></span>
+						<span class="currency">BTC</span>
+					</span>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<div id="alert" class="alert"></div>
+
+				<form action="#" method="post" id="transaction" class="form-horizontal">
+					<div class="form-group">
+						<div class="col-xs-12">
+							I want to
+
+							<label for="buy" class="checkbox-inline checkbox-action">
+								<input type="radio" id="buy" name="action" value="buy" checked /> buy
+							</label>
+
+							<label for="sell" class="checkbox-inline checkbox-action">
+								<input type="radio" id="sell" name="action" value="sell" /> sell
+							</label>
+
+							some Bitcoins.
+						</div>
+					</div>
+
+					<div class="form-group form-group-qty">
+						<div class="col-xs-12">
+							<label for="qty" class="control-label label label-default">
+								BTC
+							</label>
+							<input type="text" id="qty" name="qty" class="form-control" value="1.00" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-xs-12">
+							<button id="do-transaction" type="submit" class="btn btn-primary btn-sm">
+								Buy
+							</button>
+
+							<div class="loader"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

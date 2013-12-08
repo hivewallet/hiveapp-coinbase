@@ -1,0 +1,9 @@
+{
+	"id": "coinbase",
+	"version": "1.0",
+	"name": "Coinbase",
+	"author": "Paweł Golonko",
+	"contact": "pgolonko@gmail.com",
+	"description": "Coinbase for Hive",
+	"icon": "Icon.png"
+}

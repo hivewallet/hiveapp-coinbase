@@ -1,0 +1,97 @@
+body {
+	background: #eceef4;
+	font: normal 14px 'Helvetica Neue', Arial, sans-serif;
+	padding: 0;
+}
+
+/* Header */
+
+.page-header {
+	background: #348edb;
+	border: 0;
+	margin: 0;
+	padding: 20px;
+}
+
+h1 {
+	background: url('../img/logo.png');
+	height: 27px;
+	margin: 0;
+	overflow: hidden;
+	text-indent: -666px;
+	width: 129px;
+}
+
+/* Body */
+
+
+/* Panel */
+
+.panel {
+	background: #fff;
+	border-radius: 0;
+	color: #444;
+}
+
+.panel-body {
+	border-bottom: 1px solid #ddd;
+	padding: 20px;
+}
+
+#alert {
+	display: none;
+}
+
+/* Current balance */
+
+#current-balance {
+	color: #a1a1b3;
+	font-size: 16px;
+}
+
+.balance {
+	color: #50bf82;
+	font-weight: bold;
+}
+
+/* Form */
+
+.form-group:last-child {
+	margin-bottom: 0;
+}
+
+.form-horizontal .checkbox-inline {
+	font-weight: bold;
+	margin: 0 0 0 6px;
+	padding: 0;
+	vertical-align: text-bottom;
+}
+
+/* Qty */
+
+.form-group-qty {
+	position: relative;
+}
+
+.form-group-qty label {
+	left: 20px;
+	padding: 7px;
+	position: absolute;
+	top: 5px;
+}
+
+.form-group-qty input {
+	padding-left: 48px;
+}
+
+/* Loader */
+
+.loader {
+	background: url('../img/loader.gif');
+	display: inline-block;
+	height: 16px;
+	margin: 0 5px;
+	opacity: 0;
+	vertical-align: middle;
+	width: 16px;
+}
