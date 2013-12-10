@@ -10,9 +10,9 @@
     <script src="js/coinbase.js"></script>
 </head>
 <body>
-	<div class="page-header">
+	<header id="header">
 		<h1>Coinbase</h1>
-	</div>
+	</header>
 
 	<div class="body">
 		<div class="panel panel-default">
@@ -74,6 +74,37 @@
 					</div>
 				</form>
 			</div>
+		</div>
+
+		<div class="page-header">
+			<h2>Recent transactions</h2>
+		</div>
+
+		<div class="panel panel-default">
+			<table id="history" class="table table-condensed">
+				<thead>
+					<tr>
+						<th>Transaction</th>
+						<th width="80">Date</th>
+						<th width="70">Amount</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<span class="name">
+								<span class="glyphicon"></span>
+							</span>
+						</td>
+						<td>
+							<span class="date"></span>
+						</td>
+						<td>
+							<span class="amount"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </body>

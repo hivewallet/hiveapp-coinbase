@@ -6,10 +6,8 @@ body {
 
 /* Header */
 
-.page-header {
+#header {
 	background: #348edb;
-	border: 0;
-	margin: 0;
 	padding: 20px;
 }
 
@@ -24,6 +22,14 @@ h1 {
 
 /* Body */
 
+.page-header {
+	margin: 0;
+	padding: 0 20px;
+}
+
+.page-header h2 {
+	font-size: 16px;
+}
 
 /* Panel */
 
@@ -31,6 +37,7 @@ h1 {
 	background: #fff;
 	border-radius: 0;
 	color: #444;
+	margin-bottom: 10px;
 }
 
 .panel-body {
@@ -87,6 +94,52 @@ h1 {
 
 .form-group-qty input {
 	padding-left: 48px;
+}
+
+/* History */
+
+#history {
+	font-size: 12px;
+	table-layout: fixed;
+}
+
+#history.table-condensed > thead > tr > th {
+	border-bottom-width: 1px;
+}
+
+#history.table-condensed > thead > tr > th,
+#history.table-condensed > tbody > tr > td {
+	padding: 10px 5px;
+}
+
+#history .glyphicon {
+	margin: 0 2px;
+}
+
+#history .name {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+
+#history .date {
+	color: #a1a1b3;
+}
+
+#history .amount {
+	font-weight: bold;
+}
+
+.transaction-in .glyphicon,
+.transaction-in .amount {
+	color: #4eb17b;
+}
+
+.transaction-out .glyphicon,
+.transaction-out .amount {
+	color: #d2322d;
 }
 
 /* Loader */

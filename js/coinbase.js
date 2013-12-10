@@ -1,8 +1,8 @@
 var apiUrl = 'https://coinbase.com/api/v1/',
 	token;
 
-var balance,
-	exchange;
+var balance, exchange,
+	history, historyRow;
 
 function getToken() {
 	var token = localStorage.getItem('coinbase.token');
@@ -52,16 +52,24 @@ function initPage() {
 	balance = $('#current-balance .balance');
 	exchange = $('#current-balance .exchange');
 
+	history = $('#history');
+
 	// Subscripe exchange listener
 	bitcoin.addExchangeRateListener(function(currency, amount) {
-		console.log(amount);
 		amount = amount * parseFloat($('.value', balance).data('balance'));
+
 		exchange.find('.value').text(amount.toPrecision(2));
 		exchange.find('.currency').text(currency);
 	});
 
 	// Refresh balance
 	refreshBalance();
+
+	// Get history row placeholder
+	historyRow = $('tbody tr', history).remove();
+
+	// Refresh history
+	refreshHistory();
 
 	// Change qty
 	$('#qty').on('blur', function() {
@@ -155,6 +163,49 @@ function refreshBalance() {
 	});
 }
 
+function refreshHistory() {
+	makeRequest('transactions', 'get', function(data) {
+		if (data.total_count > 0) {
+			// Clear table
+			$('tbody tr', history).remove();
+
+			$.each(data.transactions, function(key, value) {
+				var transaction = value.transaction,
+					amount = parseFloat(transaction.amount.amount),
+					row = historyRow.clone(),
+					date;
+
+				// Set transaction type
+				if (amount > 0) {
+					row
+						.addClass('transaction-in')
+						.find('.glyphicon').addClass('glyphicon-arrow-left');
+
+					amount = '+' + amount.toPrecision(4);
+				}
+				else {
+					row
+						.addClass('transaction-out')
+						.find('.glyphicon').addClass('glyphicon-arrow-right');
+
+					amount = amount.toPrecision(4);
+				}
+
+				// Get date
+				date = new Date(transaction.created_at);
+
+				// Fill cells
+				$('.name', row).append(transaction.id);
+				$('.date', row).append([_date_pad(date.getDay()), _date_pad(date.getMonth()), date.getFullYear()].join('.'));
+				$('.amount', row).append(amount);
+
+				// Add row to the table
+				history.append(row);
+			});
+		}
+	});
+}
+
 function showAlert(type, msg) {
 	type = 'alert alert-' + type;
 
@@ -163,6 +214,10 @@ function showAlert(type, msg) {
 		.attr('class', type)
 		.text(msg)
 		.fadeIn();
+}
+
+function _date_pad(n) {
+	return n.toString().length > 1 ? n : '0' + n;
 }
 
 jQuery(document).ready(function($) {
