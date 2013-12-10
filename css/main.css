@@ -46,7 +46,12 @@ h1 {
 
 #current-balance {
 	color: #a1a1b3;
-	font-size: 16px;
+	font-size: 14px;
+}
+
+#current-balance .pull-left {
+	font-size: 12px;
+	padding-top: 3px;
 }
 
 .balance {

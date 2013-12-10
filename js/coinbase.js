@@ -1,6 +1,9 @@
 var apiUrl = 'https://coinbase.com/api/v1/',
 	token;
 
+var balance,
+	exchange;
+
 function getToken() {
 	var token = localStorage.getItem('coinbase.token');
 
@@ -45,6 +48,19 @@ function getToken() {
 };
 
 function initPage() {
+	// Get elements
+	balance = $('#current-balance .balance');
+	exchange = $('#current-balance .exchange');
+
+	// Subscripe exchange listener
+	bitcoin.addExchangeRateListener(function(currency, amount) {
+		console.log(amount);
+		amount = amount * parseFloat($('.value', balance).data('balance'));
+		exchange.find('.value').text(amount.toPrecision(2));
+		exchange.find('.currency').text(currency);
+	});
+
+	// Refresh balance
 	refreshBalance();
 
 	// Change qty
@@ -129,7 +145,13 @@ function parseQuery(query) {
 
 function refreshBalance() {
 	makeRequest('account/balance', 'get', function(data) {
-		$('#current-balance .value').text(data.amount);
+		var balanceAmount = parseFloat(data.amount);
+
+		$('.value', balance)
+			.text(balanceAmount.toPrecision(2))
+			.data('balance', balanceAmount);
+
+		bitcoin.updateExchangeRate('EUR');
 	});
 }
 
