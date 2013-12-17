@@ -48,9 +48,6 @@ function getToken() {
 };
 
 function initPage() {
-	$('#loading').fadeOut();
-	$('#container').fadeIn();
-
 	// Get elements
 	balance = $('#current-balance .balance');
 	exchange = $('#current-balance .exchange');
@@ -118,6 +115,9 @@ function initPage() {
 			loader.stop().animate({ opacity: 0 });
 		});
 	});
+
+	$('#loading').fadeOut();
+	$('#container').fadeIn();
 }
 
 function makeRequest(uri, type, data, callback) {
