@@ -48,6 +48,9 @@ function getToken() {
 };
 
 function initPage() {
+	$('#loading').fadeOut();
+	$('#container').fadeIn();
+
 	// Get elements
 	balance = $('#current-balance .balance');
 	exchange = $('#current-balance .exchange');
@@ -196,7 +199,7 @@ function refreshHistory() {
 
 				// Fill cells
 				$('.name', row).append(transaction.id);
-				$('.date', row).append([_date_pad(date.getDay()), _date_pad(date.getMonth()), date.getFullYear()].join('.'));
+				$('.date', row).append([_date_pad(date.getDay() + 1), _date_pad(date.getMonth() + 1), date.getFullYear()].join('.'));
 				$('.amount', row).append(amount);
 
 				// Add row to the table

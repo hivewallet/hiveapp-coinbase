@@ -1,5 +1,5 @@
 body {
-	background: #eceef4;
+	background: #348edb;
 	font: normal 14px 'Helvetica Neue', Arial, sans-serif;
 	padding: 0;
 }
@@ -11,7 +11,7 @@ body {
 	padding: 20px;
 }
 
-h1 {
+.logo {
 	background: url('../img/logo.png');
 	height: 27px;
 	margin: 0;
@@ -21,6 +21,20 @@ h1 {
 }
 
 /* Body */
+
+#container {
+	background: #eceef4;
+	display: none;
+	padding-bottom: 150px;
+}
+
+#loading {
+	left: 50%;
+	margin-left: -65px;
+	margin-top: -14px;
+	position: absolute;
+	top: 50%;
+}
 
 .page-header {
 	margin: 0;
