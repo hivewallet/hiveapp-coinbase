@@ -1,18 +1,19 @@
 var apiUrl = 'https://coinbase.com/api/v1/',
 	token;
 
+var clientId = 'e65e3b88a703f084b6a438039763c998831e66e2f6a3bfdd3e1368ed70c125cf',
+	clientSecret = '9a0873332333977db9374a93c7c7fd6b0f6bb4c2427d6bb5609c0e9b0b292615',
+	redirectUrl = 'http://coinbase.hiveapp/index.html';
+
 var balance, exchange,
 	history, historyRow,
 	currency;
 
-function getToken() {
+function auth() {
 	var token = localStorage.getItem('coinbase.token');
 
 	if (token === null) {
-		var clientId = 'e65e3b88a703f084b6a438039763c998831e66e2f6a3bfdd3e1368ed70c125cf',
-			clientSecret = '9a0873332333977db9374a93c7c7fd6b0f6bb4c2427d6bb5609c0e9b0b292615',
-			redirectUrl = 'http://coinbase.hiveapp/index.html',
-			vars = parseQuery();
+		var vars = parseQuery();
 
 		if (vars.code === undefined) {
 			window.location = 'https://coinbase.com/oauth/authorize?response_type=code'
@@ -20,33 +21,56 @@ function getToken() {
 				+ '&redirect_uri=' + redirectUrl;
 		}
 		else {
-			/**
-			 * Because of security reasons (client_secret) token is returning
-			 * by external service!
-			 */
-			$.ajax('https://coinbase.com/oauth/token', {
-				data: {
-					redirect_uri  : redirectUrl,
-					client_id     : clientId,
-					client_secret : clientSecret,
-					grant_type    : 'authorization_code',
-					code          : vars.code
-				},
-				type: 'POST',
-				success: function(data) {
-					localStorage.setItem('coinbase.token', data.access_token);
-					window.location = redirectUrl;
-				}
-			});
+			getTokens(vars.code);
 		}
 
 		return false;
 	}
-	else
-	{
+	else {
 		return token;
 	}
-};
+}
+
+function getTokens(code, grantType) {
+	var postFields;
+
+	if (grantType === undefined) {
+		grantType = 'authorization_code';
+	}
+
+	postFields = {
+		redirect_uri  : redirectUrl,
+		client_id     : clientId,
+		client_secret : clientSecret,
+		grant_type    : grantType
+	};
+
+	if (grantType === 'authorization_code') {
+		postFields.code = code;
+	}
+	else if (grantType === 'refresh_token') {
+		postFields.refresh_token = code;
+	}
+
+	$.ajax('https://coinbase.com/oauth/token', {
+		data: postFields,
+		type: 'POST',
+		success: function(data) {
+			localStorage.setItem('coinbase.token', data.access_token);
+			localStorage.setItem('coinbase.refresh_token', data.refresh_token);
+
+			window.location = redirectUrl;
+		}
+	});
+}
+
+function refreshTokens() {
+	var refresh_token;
+
+	if (refresh_token = localStorage.getItem('coinbase.refresh_token')) {
+		getTokens(refresh_token, 'refresh_token');
+	}
+}
 
 function initPage() {
 	currency = localStorage.getItem('coinbase.currency');
@@ -54,6 +78,9 @@ function initPage() {
 	if (currency === null) {
 		setCurrency('EUR');
 	}
+
+	// Set interval for tokens refreshing
+	window.setInterval(refreshTokens, 7000 * 1000);
 
 	// Get elements
 	balance = $('#current-balance .balance');
@@ -139,6 +166,11 @@ function initPage() {
 
 	$('#loading').fadeOut();
 	$('#container').fadeIn();
+
+	// Rescale elements when window is resizing
+	$(window)
+		.on('resize', onResize)
+		.trigger('resize');
 }
 
 function makeRequest(uri, type, data, callback) {
@@ -160,6 +192,10 @@ function makeRequest(uri, type, data, callback) {
 		type        : type,
 		success     : callback
 	});
+}
+
+function onResize() {
+	$('#container').css('min-height', $(window).height());
 }
 
 function parseQuery(query) {
@@ -254,7 +290,7 @@ function _date_pad(n) {
 }
 
 jQuery(document).ready(function($) {
-	if (token = getToken()) {
+	if (token = auth()) {
 		initPage();
 	}
 });
