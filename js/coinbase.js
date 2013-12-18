@@ -220,7 +220,7 @@ function refreshHistory() {
 
 				// Fill cells
 				$('.name', row).append(transaction.id);
-				$('.date', row).append([_date_pad(date.getDay() + 1), _date_pad(date.getMonth() + 1), date.getFullYear()].join('.'));
+				$('.date', row).append([_date_pad(date.getDate()), _date_pad(date.getMonth() + 1), date.getFullYear()].join('.'));
 				$('.amount', row).append(amount);
 
 				// Add row to the table
