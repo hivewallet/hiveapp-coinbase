@@ -1,13 +1,24 @@
-var apiUrl = 'https://coinbase.com/api/v1/',
-	token;
-
+/* API */
 var clientId = 'e65e3b88a703f084b6a438039763c998831e66e2f6a3bfdd3e1368ed70c125cf',
 	clientSecret = '9a0873332333977db9374a93c7c7fd6b0f6bb4c2427d6bb5609c0e9b0b292615',
 	redirectUrl = 'http://coinbase.hiveapp/index.html';
 
+var apiHost = 'https://coinbase.com/',
+	apiUrl = apiHost + 'api/v1/',
+	token;
+
+/* Layout elements */
 var balance, exchange,
 	history, historyRow,
 	currency;
+
+/* Cookies options */
+var now = new Date();
+now.setYear(now.getFullYear() + 2);
+
+var cookiesOptions = {
+	expiresAt: now
+}
 
 function auth() {
 	var token = localStorage.getItem('coinbase.token');
@@ -16,7 +27,7 @@ function auth() {
 		var vars = parseQuery();
 
 		if (vars.code === undefined) {
-			window.location = 'https://coinbase.com/oauth/authorize?response_type=code'
+			window.location = apiHost + 'oauth/authorize?response_type=code'
 				+ '&client_id=' + clientId
 				+ '&redirect_uri=' + redirectUrl;
 		}
@@ -52,7 +63,7 @@ function getTokens(code, grantType) {
 		postFields.refresh_token = code;
 	}
 
-	$.ajax('https://coinbase.com/oauth/token', {
+	$.ajax(apiHost + 'oauth/token', {
 		data: postFields,
 		type: 'POST',
 		success: function(data) {
@@ -73,7 +84,9 @@ function refreshTokens() {
 }
 
 function initPage() {
-	currency = localStorage.getItem('coinbase.currency');
+	if ($.cookies.test()) {
+		currency = $.cookies.get('coinbase.currency');
+	}
 
 	if (currency === null) {
 		setCurrency('EUR');
@@ -216,7 +229,7 @@ function refreshBalance() {
 		var balanceAmount = parseFloat(data.amount);
 
 		$('.value', balance)
-			.text(balanceAmount.toPrecision(2))
+			.text(balanceAmount.toFixed(3))
 			.data('balance', balanceAmount);
 
 		bitcoin.updateExchangeRate(currency);
@@ -241,14 +254,14 @@ function refreshHistory() {
 						.addClass('transaction-in')
 						.find('.glyphicon').addClass('glyphicon-arrow-left');
 
-					amount = '+' + amount.toPrecision(4);
+					amount = '+' + amount.toFixed(4);
 				}
 				else {
 					row
 						.addClass('transaction-out')
 						.find('.glyphicon').addClass('glyphicon-arrow-right');
 
-					amount = amount.toPrecision(4);
+					amount = amount.toFixed(4);
 				}
 
 				// Get date
@@ -270,7 +283,10 @@ function setCurrency(newCurrency) {
 	currency = newCurrency;
 
 	$('.currency', exchange).text(currency);
-	localStorage.setItem('coinbase.currency', currency);
+
+	if ($.cookies.test()) {
+		$.cookies.set('coinbase.currency', currency, cookiesOptions);
+	}
 
 	bitcoin.updateExchangeRate(currency);
 }
