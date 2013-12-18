@@ -7,6 +7,7 @@
     <link href="css/main.css" rel="stylesheet" type="text/css" />
 
     <script src="js/libs/jquery.min.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
     <script src="js/coinbase.js"></script>
 </head>
 <body>
@@ -30,7 +31,18 @@
 						<span class="exchange">
 							<span class="sign">&asymp;</span>
 							<span class="value"></span>
-							<span class="currency"></span>
+							<div class="btn-group">
+								<a class="btn btn-link dropdown-toggle" data-toggle="dropdown">
+									<span class="currency"></span>
+									<span class="caret"></span>
+								</a>
+
+								<ul id="change-currency" class="dropdown-menu">
+									<li><a href="#" data-currency="EUR">EUR</a></li>
+									<li><a href="#" data-currency="USD">USD</a></li>
+									<li><a href="#" data-currency="PLN">PLN</a></li>
+								</ul>
+							</div>
 						</span>
 					</div>
 				</div>

@@ -80,6 +80,28 @@ body {
 	font-weight: bold;
 }
 
+/* Exchange */
+
+.exchange {
+	opacity: 0;
+}
+
+.exchange .btn-group {
+	vertical-align: baseline;
+}
+
+.exchange .btn {
+	color: #a1a1b3;
+	line-height: 0;
+	padding: 0;
+}
+
+.exchange .dropdown-menu {
+	left: auto;
+	right: 0;
+	top: 12px;
+}
+
 /* Form */
 
 .form-group:last-child {

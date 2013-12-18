@@ -2,7 +2,8 @@ var apiUrl = 'https://coinbase.com/api/v1/',
 	token;
 
 var balance, exchange,
-	history, historyRow;
+	history, historyRow,
+	currency;
 
 function getToken() {
 	var token = localStorage.getItem('coinbase.token');
@@ -48,28 +49,41 @@ function getToken() {
 };
 
 function initPage() {
+	currency = localStorage.getItem('coinbase.currency');
+
+	if (currency === null) {
+		setCurrency('EUR');
+	}
+
 	// Get elements
 	balance = $('#current-balance .balance');
 	exchange = $('#current-balance .exchange');
 
-	history = $('#history');
-
 	// Subscripe exchange listener
 	bitcoin.addExchangeRateListener(function(currency, amount) {
-		amount = amount * parseFloat($('.value', balance).data('balance'));
+		var balance = $('.value', balance).data('balance');
 
-		exchange.find('.value').text(amount.toPrecision(2));
-		exchange.find('.currency').text(currency);
+		amount = amount * parseFloat(balance);
+
+		exchange.animate({ opacity: 0 }, function() {
+			exchange.find('.value').text(amount.toPrecision(2));
+			exchange.find('.currency').text(currency);
+
+			exchange.animate({ opacity: 1 });
+		});
 	});
 
-	// Refresh balance
-	refreshBalance();
+	// HISTORY
+	history = $('#history');
 
 	// Get history row placeholder
 	historyRow = $('tbody tr', history).remove();
 
 	// Refresh history
 	refreshHistory();
+
+	// Refresh balance
+	refreshBalance();
 
 	// Change qty
 	$('#qty').on('blur', function() {
@@ -92,6 +106,13 @@ function initPage() {
 
 		label = action.val();
 		$('#do-transaction').text(label.charAt(0).toUpperCase() + label.slice(1));
+	});
+
+	// Change currency
+	$('#change-currency').on('click', 'a', function() {
+		var link = $(this);
+
+		setCurrency(link.data('currency'));
 	});
 
 	// Do transaction
@@ -162,7 +183,7 @@ function refreshBalance() {
 			.text(balanceAmount.toPrecision(2))
 			.data('balance', balanceAmount);
 
-		bitcoin.updateExchangeRate('EUR');
+		bitcoin.updateExchangeRate(currency);
 	});
 }
 
@@ -207,6 +228,15 @@ function refreshHistory() {
 			});
 		}
 	});
+}
+
+function setCurrency(newCurrency) {
+	currency = newCurrency;
+
+	$('.currency', exchange).text(currency);
+	localStorage.setItem('coinbase.currency', currency);
+
+	bitcoin.updateExchangeRate(currency);
 }
 
 function showAlert(type, msg) {
