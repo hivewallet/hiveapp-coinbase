@@ -66,7 +66,7 @@ function initPage() {
 		amount = amount * parseFloat(balance);
 
 		exchange.animate({ opacity: 0 }, function() {
-			exchange.find('.value').text(amount.toPrecision(2));
+			exchange.find('.value').text(amount.toFixed(2));
 			exchange.find('.currency').text(currency);
 
 			exchange.animate({ opacity: 1 });
