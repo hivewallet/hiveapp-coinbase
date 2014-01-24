@@ -1,205 +1,205 @@
 body {
-	background: #348edb;
-	font: normal 14px 'Helvetica Neue', Arial, sans-serif;
-	padding: 0;
+  background: #348edb;
+  font: normal 14px 'Helvetica Neue', Arial, sans-serif;
+  padding: 0;
 }
 
 /* Header */
 
 #header {
-	background: #348edb;
-	padding: 20px;
+  background: #348edb;
+  padding: 20px;
 }
 
 .logo {
-	background: url('../img/logo.png');
-	height: 27px;
-	margin: 0;
-	overflow: hidden;
-	text-indent: -666px;
-	width: 129px;
+  background: url('../img/logo.png');
+  height: 27px;
+  margin: 0;
+  overflow: hidden;
+  text-indent: -666px;
+  width: 129px;
 }
 
 /* Body */
 
 #container {
-	background: #eceef4;
-	display: none;
-	padding-bottom: 10px;
+  background: #eceef4;
+  display: none;
+  padding-bottom: 10px;
 }
 
 #loading {
-	left: 50%;
-	margin-left: -65px;
-	margin-top: -14px;
-	position: absolute;
-	top: 50%;
+  left: 50%;
+  margin-left: -65px;
+  margin-top: -14px;
+  position: absolute;
+  top: 50%;
 }
 
 .page-header {
-	margin: 0;
-	padding: 0 20px;
+  margin: 0;
+  padding: 0 20px;
 }
 
 .page-header h2 {
-	font-size: 16px;
+  font-size: 16px;
 }
 
 /* Panel */
 
 .panel {
-	background: #fff;
-	border-radius: 0;
-	color: #444;
-	margin-bottom: 10px;
+  background: #fff;
+  border-radius: 0;
+  color: #444;
+  margin-bottom: 10px;
 }
 
 .panel-body {
-	border-bottom: 1px solid #ddd;
-	padding: 20px;
+  border-bottom: 1px solid #ddd;
+  padding: 20px;
 }
 
 #alert {
-	display: none;
+  display: none;
 }
 
 /* Current balance */
 
 #current-balance {
-	color: #a1a1b3;
-	font-size: 14px;
+  color: #a1a1b3;
+  font-size: 14px;
 }
 
 #current-balance .pull-left {
-	font-size: 11px;
-	padding-top: 3px;
+  font-size: 11px;
+  padding-top: 3px;
 }
 
 .balance {
-	color: #50bf82;
-	font-weight: bold;
+  color: #50bf82;
+  font-weight: bold;
 }
 
 /* Exchange */
 
 .exchange {
-	opacity: 0;
+  opacity: 0;
 }
 
 .exchange .btn-group {
-	vertical-align: baseline;
+  vertical-align: baseline;
 }
 
 .exchange .btn {
-	color: #a1a1b3;
-	line-height: 0;
-	padding: 0;
+  color: #a1a1b3;
+  line-height: 0;
+  padding: 0;
 }
 
 .exchange .dropdown-menu {
-	left: auto;
-	right: 0;
-	top: 12px;
+  left: auto;
+  right: 0;
+  top: 12px;
 }
 
 /* Form */
 
 .form-group:last-child {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .form-horizontal .checkbox-inline {
-	font-weight: bold;
-	margin: 0 0 0 6px;
-	padding: 0;
-	vertical-align: text-bottom;
+  font-weight: bold;
+  margin: 0 0 0 6px;
+  padding: 0;
+  vertical-align: text-bottom;
 }
 
 /* Qty */
 
 .form-group-qty, .form-group-addr {
-	position: relative;
+  position: relative;
 }
 
 .form-group-qty label {
-	left: 20px;
-	padding: 7px;
-	position: absolute;
-	top: 5px;
+  left: 20px;
+  padding: 7px;
+  position: absolute;
+  top: 5px;
 }
 
 .form-group-qty input {
-	padding-left: 48px;
+  padding-left: 48px;
 }
 
 .form-group-addr label {
-	left: 20px;
-	padding: 7px;
-	position: absolute;
-	top: 5px;
+  left: 20px;
+  padding: 7px;
+  position: absolute;
+  top: 5px;
 }
 
 .form-group-addr input {
-	padding-left: 40px;
+  padding-left: 40px;
   font-size: 10pt;
 }
 
 /* History */
 
 #history {
-	font-size: 12px;
-	table-layout: fixed;
+  font-size: 12px;
+  table-layout: fixed;
 }
 
 #history.table-condensed > thead > tr > th {
-	border-bottom-width: 1px;
+  border-bottom-width: 1px;
 }
 
 #history.table-condensed > thead > tr > th,
 #history.table-condensed > tbody > tr > td {
-	padding: 10px 5px;
+  padding: 10px 5px;
 }
 
 #history .glyphicon {
-	margin: 0 2px;
+  margin: 0 2px;
 }
 
 #history .name {
-	display: block;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	width: 100%;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 }
 
 #history .date {
-	color: #a1a1b3;
+  color: #a1a1b3;
 }
 
 #history .amount {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .transaction-in .glyphicon,
 .transaction-in .amount {
-	color: #4eb17b;
+  color: #4eb17b;
 }
 
 .transaction-out .glyphicon,
 .transaction-out .amount {
-	color: #d2322d;
+  color: #d2322d;
 }
 
 /* Loader */
 
 .loader {
-	background: url('../img/loader.gif');
-	display: inline-block;
-	height: 16px;
-	margin: 0 5px;
-	opacity: 0;
-	vertical-align: middle;
-	width: 16px;
+  background: url('../img/loader.gif');
+  display: inline-block;
+  height: 16px;
+  margin: 0 5px;
+  opacity: 0;
+  vertical-align: middle;
+  width: 16px;
 }
 
 
