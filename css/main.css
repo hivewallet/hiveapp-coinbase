@@ -117,7 +117,7 @@ body {
 
 /* Qty */
 
-.form-group-qty {
+.form-group-qty, .form-group-addr {
 	position: relative;
 }
 
@@ -130,6 +130,18 @@ body {
 
 .form-group-qty input {
 	padding-left: 48px;
+}
+
+.form-group-addr label {
+	left: 20px;
+	padding: 7px;
+	position: absolute;
+	top: 5px;
+}
+
+.form-group-addr input {
+	padding-left: 40px;
+  font-size: 10pt;
 }
 
 /* History */
@@ -188,4 +200,9 @@ body {
 	opacity: 0;
 	vertical-align: middle;
 	width: 16px;
+}
+
+
+#copy-hive-address {
+  font-size: 9pt;
 }

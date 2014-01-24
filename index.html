@@ -54,38 +54,61 @@
           <form action="#" method="post" id="transaction" class="form-horizontal">
             <div class="form-group">
               <div class="col-xs-12">
-                I want to
-
-                <label for="buy" class="checkbox-inline checkbox-action">
-                  <input type="radio" id="buy" name="action" value="buy" checked /> buy
-                </label>
-
-                <label for="sell" class="checkbox-inline checkbox-action">
-                  <input type="radio" id="sell" name="action" value="sell" /> sell
-                </label>
-
-                some Bitcoins.
+                <ul class="nav nav-pills">
+                  <li class="active"><a href="#" id="send">Send</a></li>
+                  <li><a href="#" id="receive">Receive</a></li>
+                </ul>
               </div>
             </div>
 
-            <div class="form-group form-group-qty">
-              <div class="col-xs-12">
-                <label for="qty" class="control-label label label-default">
-                  BTC
-                </label>
-                <input type="text" id="qty" name="qty" class="form-control" value="1.00" />
+            <section class="send">
+              <div class="form-group form-group-qty">
+                <div class="col-xs-12">
+                  <label for="qty" class="control-label label label-default">BTC</label>
+                  <input type="text" id="qty" name="qty" class="form-control" value="1.00" />
+                </div>
               </div>
-            </div>
 
-            <div class="form-group">
-              <div class="col-xs-12">
-                <button id="do-transaction" type="submit" class="btn btn-primary btn-sm">
-                  Buy
-                </button>
-
-                <div class="loader"></div>
+              <div class="form-group form-group-addr">
+                <div class="col-xs-12">
+                  <label for="target_address" class="control-label label label-default">To:</label>
+                  <input type="text" id="target_address" name="target_address" class="form-control" value="">
+                </div>
               </div>
-            </div>
+
+              <div class="form-group">
+                <div class="col-xs-12">
+                  <a href="#" id="copy-hive-address">Copy Hive address</a>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-xs-12">
+                  <button id="send-from-coinbase" class="btn btn-primary btn-sm">Send</button>
+                  <div class="loader"></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="receive" style="display: none;">
+              <div class="form-group form-group-qty">
+                <div class="col-xs-12">
+                  Your address:
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-xs-12">
+                  <input type="text" id="receive_address" name="receive_address" class="form-control" value="" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-xs-12">
+                  <button id="send-from-hive" class="btn btn-primary btn-sm">Send from Hive</button>
+                </div>
+              </div>
+            </section>
           </form>
         </div>
       </div>

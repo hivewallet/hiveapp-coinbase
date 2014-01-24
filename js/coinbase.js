@@ -10,7 +10,7 @@ var apiHost = 'https://coinbase.com',
 /* Layout elements */
 var balance, exchange,
   history, historyRow,
-  currency;
+  currency, userInfo;
 
 /* Cookies options */
 var now = new Date();
@@ -91,6 +91,8 @@ function initPage() {
     setCurrency('EUR');
   }
 
+  loadHiveUserInfo();
+
   // Set interval for tokens refreshing
   window.setInterval(refreshTokens, 7000 * 1000);
 
@@ -122,10 +124,14 @@ function initPage() {
   historyRow = $('tbody tr', history).remove();
 
   // Refresh history
+  window.setInterval(refreshHistory, 15 * 1000);
   refreshHistory();
 
   // Refresh balance
   refreshBalance();
+
+  // Load receive address
+  loadReceiveAddress();
 
   // Change qty
   $('#qty').on('blur', function() {
@@ -142,12 +148,12 @@ function initPage() {
   });
 
   // Change method
-  $('.checkbox-action input').on('change', function() {
-    var action = $(this),
-      label;
+  $('.nav-pills a').on('click', function() {
+    var action = $(this);
+    action.parent('li').addClass('active').siblings().removeClass('active');
 
-    label = action.val();
-    $('#do-transaction').text(label.charAt(0).toUpperCase() + label.slice(1));
+    var label = action.attr('id');
+    $('#transaction').find('section.' + label).show().siblings('section').hide();
   });
 
   // Change currency
@@ -157,21 +163,57 @@ function initPage() {
     setCurrency(link.data('currency'));
   });
 
-  // Do transaction
-  $('#transaction').on('submit', function(e) {
+  // Selecting receive address
+  $('#receive_address').on('mouseup', function(e) {
+    $(this).select();
     e.preventDefault();
+  });
+
+  // Receive from Hive
+  $('#send-from-hive').on('click', function(e) {
+    bitcoin.sendMoney($('#receive_address').val());
+    e.preventDefault();
+  });
+
+  // Copy Hive address
+  $('#copy-hive-address').on('click', function(e) {
+    $('#target_address').val(userInfo.address);
+    e.preventDefault();
+  });
+
+  // Sending
+  $('#send-from-coinbase').on('click', function(e) {
+    e.preventDefault();
+
+    var address = $('#target_address').val();
+    var amount = parseFloat($('#qty').val());
+
+    if (amount < 0.01) {
+      alert("Minimum transaction amount is 0.01 BTC.");
+      return;
+    }
+
+    var result = confirm('Are you sure you want to send ' + amount + ' to ' + address + '?');
+    if (!result) {
+      return;
+    }
 
     var form = $(this),
       loader = $('.loader', form);
 
     loader.stop().animate({ opacity: 1 });
 
-    makeRequest('/buys', 'post', { qty : parseFloat($('#qty').val()) }, function(data) {
+    var sentData = {
+      'transaction[to]': address,
+      'transaction[amount]': '' + amount
+    };
+
+    makeRequest('/transactions/send_money', 'post', sentData, function(data) {
       if (data.success) {
         showAlert('success', 'Transaction was successful');
         refreshBalance();
-      }
-      else {
+        refreshHistory();
+      } else {
         showAlert('danger', data.errors[0]);
       }
 
@@ -234,6 +276,18 @@ function refreshBalance() {
       .data('balance', balanceAmount);
 
     bitcoin.updateExchangeRate(currency);
+  });
+}
+
+function loadReceiveAddress() {
+  makeRequest('/account/receive_address', 'get', function(data) {
+    $('#receive_address').val(data.address);
+  });
+}
+
+function loadHiveUserInfo() {
+  bitcoin.getUserInfo(function(data) {
+    userInfo = data;
   });
 }
 
