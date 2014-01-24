@@ -3,8 +3,8 @@ var clientId = 'f40f30fb9d5e9cb7871bec9c14cacbc87bed46a093f7fb3d8bc00071b5f0dd60
   clientSecret = '4e284b0c8445b654962167fa94049665c208ed49ce97fb2375fc9ed35e9ae447',
   redirectUrl = location.origin + location.pathname;
 
-var apiHost = 'https://coinbase.com/',
-  apiUrl = apiHost + 'api/v1/',
+var apiHost = 'https://coinbase.com',
+  apiUrl = apiHost + '/api/v1',
   token;
 
 /* Layout elements */
@@ -27,7 +27,7 @@ function auth() {
     var vars = parseQuery();
 
     if (vars.code === undefined) {
-      window.location = apiHost + 'oauth/authorize?response_type=code'
+      window.location = apiHost + '/oauth/authorize?response_type=code'
         + '&client_id=' + clientId
         + '&redirect_uri=' + redirectUrl;
     }
@@ -63,7 +63,7 @@ function getTokens(code, grantType) {
     postFields.refresh_token = code;
   }
 
-  $.ajax(apiHost + 'oauth/token', {
+  $.ajax(apiHost + '/oauth/token', {
     data: postFields,
     type: 'POST',
     success: function(data) {
@@ -162,7 +162,7 @@ function initPage() {
 
     loader.stop().animate({ opacity: 1 });
 
-    makeRequest('buys', 'post', { qty : parseFloat($('#qty').val()) }, function(data) {
+    makeRequest('/buys', 'post', { qty : parseFloat($('#qty').val()) }, function(data) {
       if (data.success) {
         showAlert('success', 'Transaction was successful');
         refreshBalance();
@@ -223,7 +223,7 @@ function parseQuery(query) {
 }
 
 function refreshBalance() {
-  makeRequest('account/balance', 'get', function(data) {
+  makeRequest('/account/balance', 'get', function(data) {
     var balanceAmount = parseFloat(data.amount);
 
     $('.value', balance)
@@ -235,7 +235,7 @@ function refreshBalance() {
 }
 
 function refreshHistory() {
-  makeRequest('transactions', 'get', function(data) {
+  makeRequest('/transactions', 'get', function(data) {
     if (data.total_count > 0) {
       // Clear table
       $('tbody tr', history).remove();
