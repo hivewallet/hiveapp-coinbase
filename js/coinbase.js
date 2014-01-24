@@ -98,15 +98,18 @@ function initPage() {
   balance = $('#current-balance .balance');
   exchange = $('#current-balance .exchange');
 
-  // Subscripe exchange listener
-  bitcoin.addExchangeRateListener(function(currency, amount) {
-    var balance = $('.value', balance).data('balance');
+  // Subscribe exchange listener
+  bitcoin.addExchangeRateListener(function(loadedCurrency, exchangeRate) {
+    if (loadedCurrency != currency) {
+      return;
+    }
 
-    amount = amount * parseFloat(balance);
+    var balance = $('.value', balance).data('balance');
+    var amount = exchangeRate * parseFloat(balance);
 
     exchange.animate({ opacity: 0 }, function() {
       exchange.find('.value').text(amount.toFixed(2));
-      exchange.find('.currency').text(currency);
+      exchange.find('.currency').text(loadedCurrency);
 
       exchange.animate({ opacity: 1 });
     });
@@ -280,7 +283,6 @@ function refreshHistory() {
 function setCurrency(newCurrency) {
   currency = newCurrency;
 
-  $('.currency', exchange).text(currency);
   $.cookies.set('coinbase.currency', currency, cookiesOptions);
 
   bitcoin.updateExchangeRate(currency);
