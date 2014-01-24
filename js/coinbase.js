@@ -63,8 +63,9 @@ function getTokens(code, grantType) {
     postFields.refresh_token = code;
   }
 
-  $.ajax(apiHost + '/oauth/token', {
+  bitcoin.makeRequest(apiHost + '/oauth/token', {
     data: postFields,
+    dataType: 'json',
     type: 'POST',
     success: function(data) {
       $.cookies.set('coinbase.token', data.access_token, cookiesOptions);
@@ -196,12 +197,11 @@ function makeRequest(uri, type, data, callback) {
 
   uri = apiUrl + uri + '?access_token=' + token;
 
-  $.ajax(uri, {
-    crossDomain : true,
-    data        : data,
-    dataType    : 'json',
-    type        : type,
-    success     : callback
+  bitcoin.makeRequest(uri, {
+    data: data,
+    dataType: 'json',
+    type: type,
+    success: callback
   });
 }
 
