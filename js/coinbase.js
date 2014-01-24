@@ -10,7 +10,7 @@ var apiHost = 'https://coinbase.com',
 /* Layout elements */
 var balance, exchange,
   history, historyRow,
-  currency, userInfo, transactionCount;
+  currency, userInfo, systemInfo, transactionCount;
 
 /* Cookies options */
 var now = new Date();
@@ -85,12 +85,6 @@ function refreshTokens() {
 }
 
 function initPage() {
-  currency = $.cookies.get('coinbase.currency');
-
-  if (!currency) {
-    setCurrency('EUR');
-  }
-
   loadHiveUserInfo();
 
   // Set interval for tokens refreshing
@@ -302,6 +296,11 @@ function loadHiveUserInfo() {
   bitcoin.getUserInfo(function(data) {
     userInfo = data;
   });
+
+  bitcoin.getSystemInfo(function(data) {
+    systemInfo = data;
+    currency = systemInfo.preferredCurrency;
+  });
 }
 
 function refreshHistory() {
@@ -361,8 +360,6 @@ function refreshHistory() {
 
 function setCurrency(newCurrency) {
   currency = newCurrency;
-
-  $.cookies.set('coinbase.currency', currency, cookiesOptions);
 
   bitcoin.updateExchangeRate(currency);
 }
