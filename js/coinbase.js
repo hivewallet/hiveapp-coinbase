@@ -323,7 +323,13 @@ function refreshHistory() {
         date = new Date(transaction.created_at);
 
         // Fill cells
-        $('.name', row).append(transaction.id);
+        if (amount > 0) {
+          $('.name', row).append(transaction.sender ? transaction.sender.email : 'External account');
+        } else {
+          $('.name', row).append(transaction.recipient ? transaction.recipient.email :
+            transaction.recipient_address ? transaction.recipient_address : 'External account');
+        }
+
         $('.date', row).append([_date_pad(date.getDate()), _date_pad(date.getMonth() + 1), date.getFullYear()].join('.'));
         $('.amount', row).append(amount);
 
