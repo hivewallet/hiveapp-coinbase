@@ -1,7 +1,7 @@
 /* API */
-var clientId = 'e65e3b88a703f084b6a438039763c998831e66e2f6a3bfdd3e1368ed70c125cf',
-  clientSecret = '9a0873332333977db9374a93c7c7fd6b0f6bb4c2427d6bb5609c0e9b0b292615',
-  redirectUrl = 'http://coinbase.hiveapp/index.html';
+var clientId = 'f40f30fb9d5e9cb7871bec9c14cacbc87bed46a093f7fb3d8bc00071b5f0dd60',
+  clientSecret = '4e284b0c8445b654962167fa94049665c208ed49ce97fb2375fc9ed35e9ae447',
+  redirectUrl = location.origin + location.pathname;
 
 var apiHost = 'https://coinbase.com/',
   apiUrl = apiHost + 'api/v1/',
