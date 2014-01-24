@@ -21,7 +21,7 @@ var cookiesOptions = {
 };
 
 function auth() {
-  var token = localStorage.getItem('coinbase.token');
+  var token = $.cookies.get('coinbase.token');
 
   if (!token) {
     var vars = parseQuery();
@@ -67,8 +67,8 @@ function getTokens(code, grantType) {
     data: postFields,
     type: 'POST',
     success: function(data) {
-      localStorage.setItem('coinbase.token', data.access_token);
-      localStorage.setItem('coinbase.refresh_token', data.refresh_token);
+      $.cookies.set('coinbase.token', data.access_token, cookiesOptions);
+      $.cookies.set('coinbase.refresh_token', data.refresh_token, cookiesOptions);
 
       window.location = redirectUrl;
     }
@@ -78,7 +78,7 @@ function getTokens(code, grantType) {
 function refreshTokens() {
   var refresh_token;
 
-  if (refresh_token = localStorage.getItem('coinbase.refresh_token')) {
+  if (refresh_token = $.cookies.get('coinbase.refresh_token')) {
     getTokens(refresh_token, 'refresh_token');
   }
 }
