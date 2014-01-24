@@ -10,7 +10,7 @@ var apiHost = 'https://coinbase.com',
 /* Layout elements */
 var balance, exchange,
   history, historyRow,
-  currency, userInfo;
+  currency, userInfo, transactionCount;
 
 /* Cookies options */
 var now = new Date();
@@ -296,6 +296,12 @@ function refreshHistory() {
     if (data.total_count > 0) {
       // Clear table
       $('tbody tr', history).remove();
+
+      if (transactionCount && transactionCount != data.total_count) {
+        refreshBalance();
+      }
+
+      transactionCount = data.total_count;
 
       $.each(data.transactions, function(key, value) {
         var transaction = value.transaction,
