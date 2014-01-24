@@ -17,13 +17,13 @@ var now = new Date();
 now.setYear(now.getFullYear() + 2);
 
 var cookiesOptions = {
-  expiresAt: now
-}
+  expiresAt: new Date(Date.now() + 365 * 86400 * 1000)
+};
 
 function auth() {
   var token = localStorage.getItem('coinbase.token');
 
-  if (token === null) {
+  if (!token) {
     var vars = parseQuery();
 
     if (vars.code === undefined) {
@@ -84,11 +84,9 @@ function refreshTokens() {
 }
 
 function initPage() {
-  if ($.cookies.test()) {
-    currency = $.cookies.get('coinbase.currency');
-  }
+  currency = $.cookies.get('coinbase.currency');
 
-  if (currency === null) {
+  if (!currency) {
     setCurrency('EUR');
   }
 
@@ -283,10 +281,7 @@ function setCurrency(newCurrency) {
   currency = newCurrency;
 
   $('.currency', exchange).text(currency);
-
-  if ($.cookies.test()) {
-    $.cookies.set('coinbase.currency', currency, cookiesOptions);
-  }
+  $.cookies.set('coinbase.currency', currency, cookiesOptions);
 
   bitcoin.updateExchangeRate(currency);
 }
