@@ -246,7 +246,20 @@ function makeRequest(uri, type, data, callback) {
     data: data,
     dataType: 'json',
     type: type,
-    success: callback
+    success: callback,
+    error: function(response, status, error) {
+      console.log('Connection error: ', response, status, error);
+
+      if (status == 401) {
+        $.cookies.del('coinbase.token');
+
+        if (refresh_token = $.cookies.get('coinbase.refresh_token')) {
+          getTokens(refresh_token, 'refresh_token');
+        } else {
+          auth();
+        }
+      }
+    }
   });
 }
 
