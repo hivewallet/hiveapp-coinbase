@@ -125,13 +125,14 @@ body {
 
 .form-group-qty label {
   left: 20px;
-  padding: 7px;
+  width: 42px;
+  height: 24px;
   position: absolute;
   top: 5px;
 }
 
 .form-group-qty input {
-  padding-left: 48px;
+  padding-left: 52px;
 }
 
 .form-group-addr label {

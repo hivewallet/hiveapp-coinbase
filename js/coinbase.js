@@ -7,6 +7,8 @@ var apiHost = 'https://coinbase.com',
   apiUrl = apiHost + '/api/v1',
   token;
 
+var minSentAmount = 10 * bitcoin.MBTC_IN_SATOSHI;
+
 /* Layout elements */
 var balance, exchange,
   history, historyRow,
@@ -127,20 +129,6 @@ function initPage() {
   // Load receive address
   loadReceiveAddress();
 
-  // Change qty
-  $('#qty').on('blur', function() {
-    var input = $(this),
-      qty;
-
-    qty = parseFloat(input.val());
-
-    if (qty <= 0) {
-      qty = 0.001;
-    }
-
-    input.val(qty);
-  });
-
   // Change method
   $('.nav-pills a').on('click', function() {
     var action = $(this);
@@ -180,14 +168,33 @@ function initPage() {
     e.preventDefault();
 
     var address = $('#target_address').val();
-    var amount = parseFloat($('#qty').val());
-
-    if (amount < 0.01) {
-      alert("Minimum transaction amount is 0.01 BTC.");
+    if (!address) {
+      showAlert('danger', "Enter a correct Bitcoin address.");
       return;
     }
 
-    var result = confirm('Are you sure you want to send ' + amount + ' to ' + address + '?');
+    var amountText = $('#qty').val();
+    var amount = bitcoin.satoshiFromUserString(amountText);
+
+    if (!amountText || !amount) {
+      showAlert('danger', "Enter a correct amount.");
+      return;
+    }
+
+    if (amount < minSentAmount) {
+      showAlert('danger', "Minimum transaction amount is " + bitcoin.userStringForSatoshi(minSentAmount) +
+        ' ' + systemInfo.preferredBitcoinFormat + '.');
+      return;
+    }
+
+    if (amount > $('.value', balance).data('balance') * bitcoin.BTC_IN_SATOSHI) {
+      showAlert('danger', "This is more than you have in your Coinbase wallet.");
+      return;
+    }
+
+    var result = confirm('Are you sure you want to send ' + amountText + ' ' + systemInfo.preferredBitcoinFormat +
+       ' to ' + address + '?');
+
     if (!result) {
       return;
     }
@@ -199,7 +206,7 @@ function initPage() {
 
     var sentData = {
       'transaction[to]': address,
-      'transaction[amount]': '' + amount
+      'transaction[amount]': '' + (amount / bitcoin.BTC_IN_SATOSHI)
     };
 
     makeRequest('/transactions/send_money', 'post', sentData, function(data) {
@@ -304,6 +311,8 @@ function loadHiveUserInfo() {
   bitcoin.getSystemInfo(function(data) {
     systemInfo = data;
     currency = systemInfo.preferredCurrency;
+    $('.form-group-qty label').text(systemInfo.preferredBitcoinFormat);
+    $('#qty').val(bitcoin.userStringForSatoshi(minSentAmount));
   });
 }
 
