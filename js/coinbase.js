@@ -100,8 +100,8 @@ function initPage() {
       return;
     }
 
-    var balance = $('.value', balance).data('balance');
-    var amount = exchangeRate * parseFloat(balance);
+    var balanceAmount = $('.value', balance).data('balance');
+    var amount = exchangeRate * parseFloat(balanceAmount);
 
     exchange.animate({ opacity: 0 }, function() {
       exchange.find('.value').text(amount.toFixed(2));
@@ -279,11 +279,15 @@ function refreshBalance() {
     var balanceAmount = parseFloat(data.amount);
 
     $('.value', balance)
-      .text(balanceAmount.toFixed(3))
+      .html(formatBitcoinAmount(balanceAmount))
       .data('balance', balanceAmount);
 
     bitcoin.updateExchangeRate(currency);
   });
+}
+
+function formatBitcoinAmount(amount) {
+  return bitcoin.userStringForSatoshi(amount * bitcoin.BTC_IN_SATOSHI) + '&nbsp;' + systemInfo.preferredBitcoinFormat;
 }
 
 function loadReceiveAddress() {
@@ -318,6 +322,7 @@ function refreshHistory() {
       $.each(data.transactions, function(key, value) {
         var transaction = value.transaction,
           amount = parseFloat(transaction.amount.amount),
+          amountText,
           row = historyRow.clone(),
           date;
 
@@ -327,14 +332,14 @@ function refreshHistory() {
             .addClass('transaction-in')
             .find('.glyphicon').addClass('glyphicon-arrow-left');
 
-          amount = '+' + amount.toFixed(4);
+          amountText = '+' + formatBitcoinAmount(amount);
         }
         else {
           row
             .addClass('transaction-out')
             .find('.glyphicon').addClass('glyphicon-arrow-right');
 
-          amount = amount.toFixed(4);
+          amountText = '-' + formatBitcoinAmount(-amount);
         }
 
         // Get date
@@ -349,7 +354,7 @@ function refreshHistory() {
         }
 
         $('.date', row).append([_date_pad(date.getDate()), _date_pad(date.getMonth() + 1), date.getFullYear()].join('.'));
-        $('.amount', row).append(amount);
+        $('.amount', row).append(amountText);
 
         // Add row to the table
         history.append(row);
