@@ -5,6 +5,7 @@
   "author": "Jakub Suder",
   "contact": "jakub.suder@gmail.com",
   "description": "Coinbase wallet client for Hive",
+  "category": "Wallets",
   "icon": "Icon.png",
   "accessedHosts": ["coinbase.com"]
 }
